@@ -1,0 +1,18 @@
+[
+  {
+    "id": "U001",
+    "name": "Ravi Mehta",
+    "email": "renter@test.com",
+    "password_hash": "$2a$10$HCfFFd/czImn71wwMgoQQuhKg76ZJYprZqfn73lOTKGuUWh.iVNQy",
+    "role": "renter",
+    "created_at": "2026-03-03T16:47:02.014Z"
+  },
+  {
+    "id": "U002",
+    "name": "Sunita Property",
+    "email": "owner@test.com",
+    "password_hash": "$2a$10$HCfFFd/czImn71wwMgoQQuhKg76ZJYprZqfn73lOTKGuUWh.iVNQy",
+    "role": "owner",
+    "created_at": "2026-03-03T16:47:02.093Z"
+  }
+]

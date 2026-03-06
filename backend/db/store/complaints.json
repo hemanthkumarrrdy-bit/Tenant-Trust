@@ -1,0 +1,146 @@
+[
+  {
+    "id": "C001",
+    "type": "Plumbing",
+    "date": "2025-12-10",
+    "status": "Resolved",
+    "severity": "Medium",
+    "description": "Burst pipe in B-wing causing water logging in corridor.",
+    "buildingId": "B001"
+  },
+  {
+    "id": "C002",
+    "type": "Electrical",
+    "date": "2025-11-03",
+    "status": "Resolved",
+    "severity": "High",
+    "description": "Frequent power outages in flats 1–6. Wiring replaced.",
+    "buildingId": "B001"
+  },
+  {
+    "id": "C003",
+    "type": "Lift",
+    "date": "2025-10-20",
+    "status": "Resolved",
+    "severity": "Low",
+    "description": "Lift stuck twice in a week. Serviced.",
+    "buildingId": "B001"
+  },
+  {
+    "id": "C004",
+    "type": "Pest Control",
+    "date": "2025-08-15",
+    "status": "Pending",
+    "severity": "Medium",
+    "description": "Cockroach infestation in basement storage area.",
+    "buildingId": "B001"
+  },
+  {
+    "id": "C005",
+    "type": "Structural",
+    "date": "2026-01-05",
+    "status": "Pending",
+    "severity": "Critical",
+    "description": "Cracks visible in external walls of B-wing. Inspector visit pending.",
+    "buildingId": "B002"
+  },
+  {
+    "id": "C006",
+    "type": "Water Supply",
+    "date": "2025-12-22",
+    "status": "Pending",
+    "severity": "High",
+    "description": "No water supply for 3 days. Tanker arranged but billing disputed.",
+    "buildingId": "B002"
+  },
+  {
+    "id": "C007",
+    "type": "Security",
+    "date": "2025-11-18",
+    "status": "Resolved",
+    "severity": "High",
+    "description": "CCTV cameras non-functional for 2 months. Fixed after police complaint.",
+    "buildingId": "B002"
+  },
+  {
+    "id": "C008",
+    "type": "Pest Control",
+    "date": "2025-09-30",
+    "status": "Pending",
+    "severity": "Medium",
+    "description": "Rodent infestation in basement. Repeated complaints ignored.",
+    "buildingId": "B002"
+  },
+  {
+    "id": "C009",
+    "type": "Plumbing",
+    "date": "2025-08-05",
+    "status": "Pending",
+    "severity": "High",
+    "description": "Sewage overflow in ground floor corridor. Health hazard.",
+    "buildingId": "B002"
+  },
+  {
+    "id": "C010",
+    "type": "Electrical",
+    "date": "2025-12-30",
+    "status": "Resolved",
+    "severity": "Medium",
+    "description": "Generator failure during power cuts. Backup restored in 6 hours.",
+    "buildingId": "B003"
+  },
+  {
+    "id": "C011",
+    "type": "Parking",
+    "date": "2025-10-12",
+    "status": "Pending",
+    "severity": "Low",
+    "description": "Unauthorized vehicles occupying resident parking slots.",
+    "buildingId": "B003"
+  },
+  {
+    "id": "C012",
+    "type": "Lift",
+    "date": "2025-09-08",
+    "status": "Resolved",
+    "severity": "Medium",
+    "description": "Lift door sensor malfunction. Repaired.",
+    "buildingId": "B003"
+  },
+  {
+    "id": "C013",
+    "type": "Plumbing",
+    "date": "2025-11-20",
+    "status": "Resolved",
+    "severity": "Low",
+    "description": "Leaking tap in gym area. Fixed within 4 hours of reporting.",
+    "buildingId": "B004"
+  },
+  {
+    "id": "C014",
+    "type": "Structural",
+    "date": "2025-12-18",
+    "status": "Pending",
+    "severity": "High",
+    "description": "Illegal extension constructed on building terrace, posing safety risk.",
+    "buildingId": "B005"
+  },
+  {
+    "id": "C015",
+    "type": "Water Supply",
+    "date": "2025-11-05",
+    "status": "Resolved",
+    "severity": "Medium",
+    "description": "Water supply timing reduced without notice. Restored after RWA intervention.",
+    "buildingId": "B005"
+  },
+  {
+    "id": "C016",
+    "type": "Pest Control",
+    "date": "2025-09-14",
+    "status": "Resolved",
+    "severity": "Low",
+    "description": "Ant and mosquito issue in stairwell. Treated.",
+    "buildingId": "B005"
+  }
+]

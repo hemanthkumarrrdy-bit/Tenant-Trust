@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TenantTrust — India's #1 Rental Transparency Platform</title>
+  <meta name="description"
+    content="Rate landlords, check building complaint histories, explore real rent trends, and get a Fair Rent Score — all in one place." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e2756 0%, #2d3a8c 40%, #1e6fa8 80%, #0891b2 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero-orb-1 {
+      width: 500px;
+      height: 500px;
+      top: -150px;
+      right: -80px;
+    }
+
+    .hero-orb-2 {
+      width: 350px;
+      height: 350px;
+      bottom: -80px;
+      left: -80px;
+      filter: blur(100px);
+      opacity: 0.35;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+    }
+
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #7dd3fc, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 17px;
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Hero search */
+    .hero-search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: var(--radius-full);
+      padding: 8px 8px 8px 22px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 18px;
+      transition: var(--transition);
+    }
+
+    .hero-search:focus-within {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-search input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hero-search input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .hero-search .btn {
+      flex-shrink: 0;
+    }
+
+    /* Hero stats */
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .hero-stat-item {
+      text-align: center;
+    }
+
+    .hero-stat-item .val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .hero-stat-item .lbl {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-cards-stack {
+      position: relative;
+      width: 340px;
+      height: 420px;
+    }
+
+    .floating-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(20px);
+      padding: 20px 24px;
+      color: #fff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-landlord {
+      top: 0;
+      left: 0;
+      width: 240px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .card-score {
+      top: 80px;
+      right: 0;
+      width: 220px;
+      animation: float-slow 5s ease-in-out infinite;
+    }
+
+    .card-trend {
+      bottom: 30px;
+      left: 20px;
+      width: 230px;
+      animation: float 3.5s ease-in-out infinite 0.8s;
+    }
+
+    .fc-label {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.65;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .fc-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    .fc-sub {
+      font-size: 12px;
+      opacity: 0.65;
+      margin-top: 4px;
+    }
+
+    .fc-stars {
+      color: var(--warning);
+      font-size: 18px;
+    }
+
+    .score-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: conic-gradient(#10b981 87%, rgba(255, 255, 255, 0.15) 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .trend-line {
+      height: 36px;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .trend-bar {
+      width: 14px;
+      border-radius: 3px 3px 0 0;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .trend-bar.hi {
+      background: #7dd3fc;
+    }
+
+    /* ── FEATURES ── */
+    .features-section {
+      background: var(--bg-primary);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+
+    .fi-blue {
+      background: var(--primary-light);
+    }
+
+    .fi-teal {
+      background: var(--secondary-light);
+    }
+
+    .fi-purple {
+      background: rgba(124, 58, 237, 0.09);
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: linear-gradient(135deg, #f8faff 0%, #eef0ff 100%);
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-primary);
+      flex-shrink: 0;
+    }
+
+    .how-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .how-connector {
+      position: absolute;
+      top: 24px;
+      right: -40px;
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      display: none;
+    }
+
+    /* ── STATS ── */
+    .stats-band {
+      background: var(--gradient-primary);
+      padding: 64px 0;
+    }
+
+    .stats-band .stat-box .stat-value {
+      background: #fff;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.4rem;
+    }
+
+    .stats-band .stat-box .stat-label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* ── REVIEWS ── */
+    .reviews-section {
+      background: var(--bg-primary);
+    }
+
+    .review-card {
+      padding: 28px;
+    }
+
+    .review-quote {
+      font-size: 38px;
+      line-height: 1;
+      color: var(--primary);
+      opacity: 0.35;
+      font-family: serif;
+      margin-bottom: 8px;
+    }
+
+    .review-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .review-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-info .name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .review-info .detail {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .review-stars {
+      font-size: 11px;
+      color: var(--warning);
+    }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: linear-gradient(135deg, #1e2756 0%, #4361ee 60%, #06b6d4 100%);
+      padding: 88px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-band h2 {
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .cta-band p {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 17px;
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .btn-white-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+    }
+
+    .btn-white-outline:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ── HERO GRID ── */
+    @media (min-width: 900px) {
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-cards-stack {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon">🏠</div>
+          <span>Tenant<span class="gradient-text">Trust</span></span>
+        </a>
+        <div class="nav-links" id="nav-links">
+          <a href="search.html" class="nav-link">Search</a>
+          <a href="rent-trends.html" class="nav-link">Rent Trends</a>
+          <a href="submit-review.html" class="nav-link">Submit Review</a>
+          <a href="signin.html" class="btn btn-outline btn-sm">Sign In</a>
+          <a href="signup.html" class="btn btn-primary btn-sm nav-cta">Sign Up Free</a>
+        </div>
+        <button class="nav-hamburger" onclick="toggleMenu()"
+          aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="orb orb-violet hero-orb-1"></div>
+    <div class="orb orb-teal hero-orb-2"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content animate-fade-up">
+          <div class="chip"
+            style="background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.28);color:#fff;margin-bottom:22px">
+            🇮🇳 India's #1 Rental Transparency Platform
+          </div>
+          <h1>Know Before You <span>Rent.</span></h1>
+          <p>Rate landlords, check building histories, explore real rent trends — and get a <strong
+              style="color:#7dd3fc">Fair Rent Score</strong> for any property in seconds.</p>
+
+          <div class="hero-search">
+            <span>🔍</span>
+            <input id="hero-search" type="text" placeholder="Search by landlord name, building, or area…" />
+            <button class="btn btn-primary btn-sm" onclick="goSearch()">Search →</button>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <div class="val" data-count="4200">4,200+</div>
+              <div class="lbl">Landlords Rated</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="val" data-count="18500">18,500+</div>
+              <div class="lbl">Complaints Logged</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="val">12</div>
+              <div class="lbl">Cities</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="val">94%</div>
+              <div class="lbl">Verified Reviews</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero visual -->
+        <div class="hero-visual">
+          <div class="hero-cards-stack">
+            <div class="floating-card card-landlord">
+              <div class="fc-label">Top Landlord Rating</div>
+              <div class="fc-value">4.8</div>
+              <div class="fc-stars">★★★★★</div>
+              <div class="fc-sub" style="margin-top:8px">Ramesh Properties · Mumbai</div>
+            </div>
+            <div class="floating-card card-score">
+              <div class="fc-label">Fair Rent Score</div>
+              <div class="score-circle">87/100</div>
+              <div class="fc-sub">✅ Fair &amp; Transparent</div>
+            </div>
+            <div class="floating-card card-trend">
+              <div class="fc-label">Rent Trends · Bengaluru</div>
+              <div class="trend-line">
+                <div class="trend-bar" style="height:60%"></div>
+                <div class="trend-bar" style="height:75%"></div>
+                <div class="trend-bar hi" style="height:65%"></div>
+                <div class="trend-bar hi" style="height:80%"></div>
+                <div class="trend-bar hi" style="height:70%"></div>
+                <div class="trend-bar" style="height:85%"></div>
+                <div class="trend-bar hi" style="height:90%"></div>
+              </div>
+              <div class="fc-sub">↑ 8.2% YoY · 2BHK avg ₹32,400</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="section features-section">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="eyebrow">✦ Why TenantTrust</div>
+        <h2>Everything a renter needs — in <span class="gradient-text">one platform</span></h2>
+        <p>We arm renters with verified data so they can make decisions with full confidence, never again falling prey
+          to hidden charges or unresponsive landlords.</p>
+      </div>
+      <div class="grid-3" style="gap:28px">
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-blue">⭐</div>
+          <h3>Verified Landlord Ratings</h3>
+          <p>Crowdsourced, moderated ratings from real tenants across 12 cities. Filter by responsiveness, fairness, and
+            maintenance quality.</p>
+        </div>
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-teal">📊</div>
+          <h3>Fair Rent Score™</h3>
+          <p>Our proprietary algorithm weighs area price data, landlord history, and complaint records to give you a
+            real-time rent fairness score.</p>
+        </div>
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-purple">🏢</div>
+          <h3>Building Complaint History</h3>
+          <p>Access legally-filed complaint logs, inspector visit records, and maintenance issue timelines for any
+            building before signing.</p>
+        </div>
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-blue">📈</div>
+          <h3>Real Rent Trends</h3>
+          <p>12-month rolling rent data by city, area, and BHK type — powered by actual lease disclosures and community
+            data submissions.</p>
+        </div>
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-teal">🛡️</div>
+          <h3>Anonymous Reviews</h3>
+          <p>Post reviews without fear. Our anonymisation layer protects your identity while keeping reviews credible
+            and verifiable.</p>
+        </div>
+        <div class="card feature-card" data-reveal>
+          <div class="feature-icon fi-purple">🔔</div>
+          <h3>Rent Alerts</h3>
+          <p>Get notified when a landlord you're watching receives a new complaint, or when rent in your area spikes
+            above the fair range.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="section how-section">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="eyebrow">✦ How It Works</div>
+        <h2>Rent smarter in <span class="gradient-text">3 simple steps</span></h2>
+      </div>
+      <div class="grid-3">
+        <div class="card how-card" data-reveal>
+          <div class="step-num">1</div>
+          <h3>Search Your Landlord</h3>
+          <p>Enter the landlord's name, building, or area. We'll pull up their complete trust profile instantly.</p>
+        </div>
+        <div class="card how-card" data-reveal>
+          <div class="step-num">2</div>
+          <h3>Check the Fair Rent Score</h3>
+          <p>Our algorithm tells you if the asking rent is fair based on area market data and the landlord's track
+            record.</p>
+        </div>
+        <div class="card how-card" data-reveal>
+          <div class="step-num">3</div>
+          <h3>Rent with Confidence</h3>
+          <p>Submit your own review after moving in — and help the next renter make a safer decision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS BAND ── -->
+  <section class="stats-band">
+    <div class="container">
+      <div class="grid-4">
+        <div class="stat-box" data-reveal>
+          <div class="stat-value">₹2.4 Cr+</div>
+          <div class="stat-label">Savings Found for Renters</div>
+        </div>
+        <div class="stat-box" data-reveal>
+          <div class="stat-value">312K+</div>
+          <div class="stat-label">Registered Renters</div>
+        </div>
+        <div class="stat-box" data-reveal>
+          <div class="stat-value">8,000+</div>
+          <div class="stat-label">Verified Landlords</div>
+        </div>
+        <div class="stat-box" data-reveal>
+          <div class="stat-value">4.9 ★</div>
+          <div class="stat-label">App Store Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REVIEWS ── -->
+  <section class="section reviews-section">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <div class="eyebrow">✦ Real Renter Stories</div>
+        <h2>Trusted by <span class="gradient-text">thousands of renters</span></h2>
+      </div>
+      <div class="grid-3">
+        <div class="card review-card" data-reveal>
+          <div class="review-quote">"</div>
+          <p class="review-text">TenantTrust saved me ₹8,000 a month! The Fair Rent Score showed my landlord's asked
+            price was 24% above market. Armed with data, I negotiated it down.</p>
+          <div class="review-footer">
+            <div class="avatar avatar-sm">NR</div>
+            <div class="review-info">
+              <div class="name">Neha R.</div>
+              <div class="detail">Whitefield, Bengaluru</div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="card review-card" data-reveal>
+          <div class="review-quote">"</div>
+          <p class="review-text">Found out my prospective landlord had 6 unresolved maintenance complaints before I
+            signed. Avoided a nightmare situation. This platform is invaluable.</p>
+          <div class="review-footer">
+            <div class="avatar avatar-sm" style="background:var(--gradient-card)">AK</div>
+            <div class="review-info">
+              <div class="name">Arjun K.</div>
+              <div class="detail">Powai, Mumbai</div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <div class="card review-card" data-reveal>
+          <div class="review-quote">"</div>
+          <p class="review-text">As a property owner, TenantTrust helped me build credibility. My 4.7 rating has
+            attracted better tenants. Transparent system works both ways!</p>
+          <div class="review-footer">
+            <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#f97316,#ec4899)">PM</div>
+            <div class="review-info">
+              <div class="name">Priya M.</div>
+              <div class="detail">Owner · Koramangala, Bengaluru</div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-band">
+    <div class="orb orb-teal" style="width:380px;height:380px;top:-120px;right:-100px;opacity:0.2"></div>
+    <div class="orb orb-violet" style="width:300px;height:300px;bottom:-80px;left:-80px;opacity:0.2"></div>
+    <div class="container" style="position:relative;z-index:1">
+      <div class="chip"
+        style="background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.28);color:#fff;margin:0 auto 20px">🚀
+        Free forever for renters</div>
+      <h2>Ready to rent with <br>full confidence?</h2>
+      <p>Join 312,000+ renters who've stopped renting blind. Free to join, always.</p>
+      <div class="cta-btns">
+        <a href="signup.html" class="btn btn-white btn-lg">Create Free Account →</a>
+        <a href="search.html" class="btn btn-white-outline btn-lg">Explore Landlords</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">🏠</div>
+            <span class="footer-logo-text">Tenant<span class="gradient-text">Trust</span></span>
+          </a>
+          <p>India's most transparent renting platform. Protecting tenants with data-driven insights since 2023.</p>
+          <div class="footer-trust">
+            <div class="footer-trust-badge">🔒 SSL Secure</div>
+            <div class="footer-trust-badge">✅ Verified Data</div>
+          </div>
+          <div class="footer-socials">
+            <div class="footer-social-btn">𝕏</div>
+            <div class="footer-social-btn">in</div>
+            <div class="footer-social-btn">📘</div>
+            <div class="footer-social-btn">📸</div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <a href="search.html">Search Landlords</a>
+          <a href="rent-trends.html">Rent Trends</a>
+          <a href="submit-review.html">Submit Review</a>
+          <a href="rent-trends.html#calculator">Fair Rent Calculator</a>
+        </div>
+        <div class="footer-col">
+          <h5>Account</h5>
+          <a href="signin.html">Sign In</a>
+          <a href="signup.html">Create Account</a>
+          <a href="signup.html">Owner Dashboard</a>
+          <a href="#">Renter Profile</a>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#">About Us</a>
+          <a href="#">Blog</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 TenantTrust. All rights reserved. Made with ❤️ for Indian renters.</p>
+        <p>Protect your rights · Rent smarter</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function goSearch() {
+      const q = document.getElementById('hero-search').value.trim();
+      if (q) window.location.href = 'search.html?q=' + encodeURIComponent(q);
+      else window.location.href = 'search.html';
+    }
+    document.getElementById('hero-search').addEventListener('keydown', e => { if (e.key === 'Enter') goSearch(); });
+    function toggleMenu() { document.getElementById('nav-links').classList.toggle('mobile-open'); }
+  </script>
+</body>
+
+</html>

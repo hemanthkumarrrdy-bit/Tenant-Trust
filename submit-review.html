@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit a Review — TenantTrust</title>
+    <meta name="description"
+        content="Share your renting experience. Rate your landlord and help fellow tenants make informed decisions." />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #1e2756 0%, #4361ee 60%, #06b6d4 100%);
+            padding: 110px 0 56px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero h1 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .review-form-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 0 80px;
+        }
+
+        /* Progress bar */
+        .form-progress {
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .form-progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        /* Step indicator */
+        .steps-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+            gap: 0;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .step-item:last-child {
+            flex: none;
+        }
+
+        .step-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .step-dot.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .step-dot.done {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: var(--border);
+            border-radius: 1px;
+            margin: 0 8px;
+        }
+
+        /* Form card */
+        .form-card {
+            padding: 36px;
+            margin-bottom: 0;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .step-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        /* Star input */
+        .star-input {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .star-input-btn {
+            font-size: 30px;
+            cursor: pointer;
+            color: #e2e8f0;
+            transition: color 0.15s;
+            line-height: 1;
+        }
+
+        .star-input-btn.selected,
+        .star-input-btn:hover {
+            color: var(--warning);
+        }
+
+        .star-group-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .star-groups {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media(max-width:500px) {
+            .star-groups {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Summary box */
+        .review-summary-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+
+        /* Toggle */
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 46px;
+            height: 26px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #e2e8f0;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            transition: var(--transition);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .toggle input:checked+.toggle-slider {
+            background: var(--gradient-primary);
+        }
+
+        .toggle input:checked+.toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.22);
+            border-radius: var(--radius-sm);
+            padding: 13px 16px;
+            font-size: 13px;
+            color: #92400e;
+            margin-bottom: 20px;
+        }
+
+        /* Success */
+        .success-screen {
+            text-align: center;
+            padding: 60px 32px;
+            display: none;
+        }
+
+        .success-screen .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .success-screen h2 {
+            margin-bottom: 12px;
+        }
+
+        /* Nav between steps */
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <div class="nav-logo-icon">🏠</div>
+                    <span>Tenant<span class="gradient-text">Trust</span></span>
+                </a>
+                <div class="nav-links" id="nav-links">
+                    <a href="search.html" class="nav-link">Search</a>
+                    <a href="rent-trends.html" class="nav-link">Rent Trends</a>
+                    <a href="submit-review.html" class="nav-link active">Submit Review</a>
+                    <a href="signin.html" class="btn btn-outline btn-sm">Sign In</a>
+                    <a href="signup.html" class="btn btn-primary btn-sm nav-cta">Sign Up Free</a>
+                </div>
+                <button class="nav-hamburger" onclick="toggleMenu()"
+                    aria-label="Menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="page-hero">
+        <div class="orb orb-blue" style="width:350px;height:350px;top:-80px;right:-100px;opacity:0.2"></div>
+        <div class="orb orb-violet" style="width:220px;height:220px;bottom:-80px;left:-60px;opacity:0.18"></div>
+        <div class="container" style="position:relative;z-index:2">
+            <div class="chip"
+                style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;margin:0 auto 18px">
+                ✍️ Community Reviews</div>
+            <h1>Rate Your <span
+                    style="background:linear-gradient(135deg,#7dd3fc,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Landlord</span>
+            </h1>
+            <p>Your honest review protects thousands of future renters. It takes just 2 minutes.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="review-form-wrap">
+
+            <!-- Step indicator -->
+            <div class="steps-row" id="step-indicator">
+                <div class="step-item">
+                    <div class="step-dot active" id="dot-1">1</div>
+                    <div class="step-label">Property</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-dot" id="dot-2">2</div>
+                    <div class="step-label">Ratings</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-dot" id="dot-3">3</div>
+                    <div class="step-label">Experience</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-dot" id="dot-4">4</div>
+                    <div class="step-label">Submit</div>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="form-progress">
+                <div class="form-progress-fill" id="progress-fill" style="width:25%"></div>
+            </div>
+
+            <!-- STEP 1: Property Details -->
+            <div id="step-1" class="card form-card animate-fade-up">
+                <div class="step-title">Step 1 — Property Details</div>
+                <div class="step-subtitle">Tell us which property and landlord you're reviewing.</div>
+
+                <div class="form-group">
+                    <label class="form-label">Landlord Name *</label>
+                    <input type="text" class="form-control" id="f-landlord"
+                        placeholder="e.g. Ramesh Agarwal Properties" />
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">City *</label>
+                        <select class="form-control" id="f-city">
+                            <option value="">Select City</option>
+                            <option>Mumbai</option>
+                            <option>Bengaluru</option>
+                            <option>Delhi</option>
+                            <option>Hyderabad</option>
+                            <option>Chennai</option>
+                            <option>Pune</option>
+                            <option>Kolkata</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Area / Locality *</label>
+                        <input type="text" class="form-control" id="f-area" placeholder="e.g. Andheri West" />
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">BHK Type</label>
+                        <select class="form-control" id="f-bhk">
+                            <option>1 BHK</option>
+                            <option>2 BHK</option>
+                            <option>3 BHK</option>
+                            <option>4+ BHK</option>
+                            <option>Studio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Rent (₹)</label>
+                        <input type="number" class="form-control" id="f-rent" placeholder="e.g. 35000" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tenancy Period</label>
+                    <select class="form-control" id="f-tenancy">
+                        <option>Less than 6 months</option>
+                        <option>6–12 months</option>
+                        <option>1–2 years</option>
+                        <option>More than 2 years</option>
+                    </select>
+                </div>
+                <div class="step-nav">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Ratings -->
+            <div id="step-2" class="card form-card hidden">
+                <div class="step-title">Step 2 — Rate Your Landlord</div>
+                <div class="step-subtitle">Rate across four dimensions that matter most to renters.</div>
+
+                <div class="star-groups">
+                    <div>
+                        <div class="star-group-label">Responsiveness</div>
+                        <div class="star-input" id="stars-responsiveness" data-rating="0">
+                            <span class="star-input-btn" onclick="setStars('responsiveness',1)"
+                                onmouseover="hoverStars('responsiveness',1)"
+                                onmouseout="resetStars('responsiveness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('responsiveness',2)"
+                                onmouseover="hoverStars('responsiveness',2)"
+                                onmouseout="resetStars('responsiveness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('responsiveness',3)"
+                                onmouseover="hoverStars('responsiveness',3)"
+                                onmouseout="resetStars('responsiveness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('responsiveness',4)"
+                                onmouseover="hoverStars('responsiveness',4)"
+                                onmouseout="resetStars('responsiveness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('responsiveness',5)"
+                                onmouseover="hoverStars('responsiveness',5)"
+                                onmouseout="resetStars('responsiveness')">★</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="star-group-label">Maintenance</div>
+                        <div class="star-input" id="stars-maintenance" data-rating="0">
+                            <span class="star-input-btn" onclick="setStars('maintenance',1)"
+                                onmouseover="hoverStars('maintenance',1)"
+                                onmouseout="resetStars('maintenance')">★</span>
+                            <span class="star-input-btn" onclick="setStars('maintenance',2)"
+                                onmouseover="hoverStars('maintenance',2)"
+                                onmouseout="resetStars('maintenance')">★</span>
+                            <span class="star-input-btn" onclick="setStars('maintenance',3)"
+                                onmouseover="hoverStars('maintenance',3)"
+                                onmouseout="resetStars('maintenance')">★</span>
+                            <span class="star-input-btn" onclick="setStars('maintenance',4)"
+                                onmouseover="hoverStars('maintenance',4)"
+                                onmouseout="resetStars('maintenance')">★</span>
+                            <span class="star-input-btn" onclick="setStars('maintenance',5)"
+                                onmouseover="hoverStars('maintenance',5)"
+                                onmouseout="resetStars('maintenance')">★</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="star-group-label">Fairness</div>
+                        <div class="star-input" id="stars-fairness" data-rating="0">
+                            <span class="star-input-btn" onclick="setStars('fairness',1)"
+                                onmouseover="hoverStars('fairness',1)" onmouseout="resetStars('fairness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('fairness',2)"
+                                onmouseover="hoverStars('fairness',2)" onmouseout="resetStars('fairness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('fairness',3)"
+                                onmouseover="hoverStars('fairness',3)" onmouseout="resetStars('fairness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('fairness',4)"
+                                onmouseover="hoverStars('fairness',4)" onmouseout="resetStars('fairness')">★</span>
+                            <span class="star-input-btn" onclick="setStars('fairness',5)"
+                                onmouseover="hoverStars('fairness',5)" onmouseout="resetStars('fairness')">★</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="star-group-label">Communication</div>
+                        <div class="star-input" id="stars-communication" data-rating="0">
+                            <span class="star-input-btn" onclick="setStars('communication',1)"
+                                onmouseover="hoverStars('communication',1)"
+                                onmouseout="resetStars('communication')">★</span>
+                            <span class="star-input-btn" onclick="setStars('communication',2)"
+                                onmouseover="hoverStars('communication',2)"
+                                onmouseout="resetStars('communication')">★</span>
+                            <span class="star-input-btn" onclick="setStars('communication',3)"
+                                onmouseover="hoverStars('communication',3)"
+                                onmouseout="resetStars('communication')">★</span>
+                            <span class="star-input-btn" onclick="setStars('communication',4)"
+                                onmouseover="hoverStars('communication',4)"
+                                onmouseout="resetStars('communication')">★</span>
+                            <span class="star-input-btn" onclick="setStars('communication',5)"
+                                onmouseover="hoverStars('communication',5)"
+                                onmouseout="resetStars('communication')">★</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label class="form-label">Issue Categories (select all that apply)</label>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px" id="issue-tags">
+                        <div class="tag" onclick="this.classList.toggle('active')">Deposit Issues</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Maintenance Delays</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Noise / Neighbours</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Safety Concerns</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Lease Problems</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Hidden Charges</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">Illegal Clauses</div>
+                        <div class="tag" onclick="this.classList.toggle('active')">No Issues 😊</div>
+                    </div>
+                </div>
+
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(1)">← Back</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Experience -->
+            <div id="step-3" class="card form-card hidden">
+                <div class="step-title">Step 3 — Your Experience</div>
+                <div class="step-subtitle">Describe your experience in your own words.</div>
+
+                <div class="form-group">
+                    <label class="form-label">Review Title *</label>
+                    <input type="text" class="form-control" id="f-title"
+                        placeholder="e.g. Great landlord, very responsive!" maxlength="80" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Detailed Review *</label>
+                    <textarea class="form-control" id="f-review" rows="5"
+                        placeholder="Share your honest experience — maintenance, deposit, communication, lease clauses etc."
+                        maxlength="800"></textarea>
+                    <div style="text-align:right;font-size:11px;color:var(--text-muted);margin-top:6px" id="char-count">
+                        0 / 800</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Would You Recommend This Landlord?</label>
+                    <div style="display:flex;gap:10px;margin-top:6px">
+                        <button class="tag" id="rec-yes" onclick="setRec('yes')">👍 Yes</button>
+                        <button class="tag" id="rec-maybe" onclick="setRec('maybe')">🤔 Maybe</button>
+                        <button class="tag" id="rec-no" onclick="setRec('no')">👎 No</button>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(2)">← Back</button>
+                    <button class="btn btn-primary" onclick="goToStep(4)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Submit -->
+            <div id="step-4" class="card form-card hidden">
+                <div class="step-title">Step 4 — Review &amp; Submit</div>
+                <div class="step-subtitle">Your final review summary before publishing.</div>
+
+                <div class="review-summary-box" id="review-summary"></div>
+
+                <div class="form-group">
+                    <div class="toggle-wrap">
+                        <label class="toggle">
+                            <input type="checkbox" id="anonymous-toggle" />
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div>
+                            <div style="font-size:14px;font-weight:600;color:var(--text-primary)">Submit Anonymously
+                            </div>
+                            <div style="font-size:12px;color:var(--text-muted)">Your identity will not be shown with
+                                this review.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disclaimer">⚖️ By submitting, you confirm this review reflects your genuine experience and
+                    does not contain false information.</div>
+
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(3)">← Back</button>
+                    <button class="btn btn-primary btn-lg" onclick="submitReview()">🚀 Publish Review</button>
+                </div>
+            </div>
+
+            <!-- Success -->
+            <div class="success-screen" id="success-screen">
+                <div class="icon">🎉</div>
+                <h2 class="gradient-text">Review Published!</h2>
+                <p class="text-secondary">Thank you! Your review will help thousands of renters make safer, smarter
+                    decisions.</p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+                    <a href="search.html" class="btn btn-primary">Browse More Landlords →</a>
+                    <a href="index.html" class="btn btn-outline">Go Home</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none;padding-top:0">
+                <p>© 2025 TenantTrust. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/submit-review.js"></script>
+    <script>function toggleMenu() { document.getElementById('nav-links').classList.toggle('mobile-open'); }</script>
+</body>
+
+</html>

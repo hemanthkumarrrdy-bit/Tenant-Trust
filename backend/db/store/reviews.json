@@ -1,0 +1,134 @@
+[
+  {
+    "id": "R001",
+    "author": "Priya M.",
+    "date": "2025-11-10",
+    "rating": 5,
+    "text": "Very cooperative landlord. Fixed the AC within a day of reporting. Highly recommend!",
+    "upvotes": 34,
+    "anonymous": false,
+    "landlordId": "L001"
+  },
+  {
+    "id": "R002",
+    "author": "Anonymous",
+    "date": "2025-09-22",
+    "rating": 4,
+    "text": "Generally good. Minor delay in returning deposit but resolved after one follow-up.",
+    "upvotes": 18,
+    "anonymous": true,
+    "landlordId": "L001"
+  },
+  {
+    "id": "R003",
+    "author": "Karan S.",
+    "date": "2025-08-05",
+    "rating": 4,
+    "text": "Professional and transparent. Lease agreement was clear with no hidden clauses.",
+    "upvotes": 21,
+    "anonymous": false,
+    "landlordId": "L001"
+  },
+  {
+    "id": "R004",
+    "author": "Anonymous",
+    "date": "2025-12-01",
+    "rating": 1,
+    "text": "Horrible experience. Refused to return deposit for months. Had to involve legal help.",
+    "upvotes": 52,
+    "anonymous": true,
+    "landlordId": "L002"
+  },
+  {
+    "id": "R005",
+    "author": "Meera T.",
+    "date": "2025-10-15",
+    "rating": 2,
+    "text": "Plumbing issues were reported 4 times. Nothing was fixed. Avoid.",
+    "upvotes": 41,
+    "anonymous": false,
+    "landlordId": "L002"
+  },
+  {
+    "id": "R006",
+    "author": "Arjun K.",
+    "date": "2025-11-30",
+    "rating": 4,
+    "text": "Good property. Landlord is a bit slow on repairs but eventually gets things done.",
+    "upvotes": 15,
+    "anonymous": false,
+    "landlordId": "L003"
+  },
+  {
+    "id": "R007",
+    "author": "Anonymous",
+    "date": "2025-07-18",
+    "rating": 3,
+    "text": "Rent was hiked 15% without notice. Make sure to get everything in writing.",
+    "upvotes": 29,
+    "anonymous": true,
+    "landlordId": "L003"
+  },
+  {
+    "id": "R008",
+    "author": "Neha R.",
+    "date": "2026-01-12",
+    "rating": 5,
+    "text": "Best landlord I've had in 10 years of renting. Proactive, honest, and professional.",
+    "upvotes": 78,
+    "anonymous": false,
+    "landlordId": "L004"
+  },
+  {
+    "id": "R009",
+    "author": "Dev P.",
+    "date": "2025-12-28",
+    "rating": 5,
+    "text": "Full deposit returned within 3 days of vacating. No questions asked. 10/10.",
+    "upvotes": 63,
+    "anonymous": false,
+    "landlordId": "L004"
+  },
+  {
+    "id": "R010",
+    "author": "Rohit D.",
+    "date": "2025-10-05",
+    "rating": 3,
+    "text": "Average experience. Property is decent but landlord takes time to respond.",
+    "upvotes": 12,
+    "anonymous": false,
+    "landlordId": "L005"
+  },
+  {
+    "id": "R011",
+    "author": "Anonymous",
+    "date": "2025-08-20",
+    "rating": 2,
+    "text": "Was charged for repairs that were pre-existing. Document everything before moving in.",
+    "upvotes": 27,
+    "anonymous": true,
+    "landlordId": "L005"
+  },
+  {
+    "id": "R4420EBD8",
+    "landlordId": "L001",
+    "user_id": "U001",
+    "author": "Ravi Mehta",
+    "rating": 4,
+    "text": "Great landlord, very responsive and professional.",
+    "date": "2026-03-03",
+    "anonymous": false,
+    "upvotes": 0,
+    "title": "",
+    "ratingResponsiveness": null,
+    "ratingMaintenance": null,
+    "ratingFairness": null,
+    "ratingCommunication": null,
+    "bhk": null,
+    "rent": null,
+    "city": null,
+    "area": null,
+    "tags": [],
+    "recommendation": null
+  }
+]

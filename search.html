@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Landlords &amp; Buildings — TenantTrust</title>
+    <meta name="description"
+        content="Search and filter landlords and buildings by city, area, rating, and rent range." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* ── Page hero ── */
+        .search-hero {
+            background: linear-gradient(135deg, #1e2756 0%, #4361ee 60%, #06b6d4 100%);
+            padding: 110px 0 52px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-hero h1 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .search-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 480px;
+            margin: 0 auto 28px;
+        }
+
+        .hero-search-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1.5px solid rgba(255, 255, 255, 0.28);
+            border-radius: var(--radius-full);
+            padding: 8px 8px 8px 22px;
+            max-width: 620px;
+            margin: 0 auto;
+            backdrop-filter: blur(12px);
+            transition: var(--transition);
+        }
+
+        .hero-search-bar:focus-within {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        .hero-search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 64px;
+            z-index: 100;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-select:focus,
+        .filter-select:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-chip.active,
+        .filter-chip:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-spacer {
+            flex: 1;
+        }
+
+        /* ── View toggle ── */
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: var(--radius-full);
+        }
+
+        .view-btn {
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .view-btn.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: var(--shadow-xs);
+        }
+
+        /* ── Layout ── */
+        .results-body {
+            padding: 32px 0 60px;
+        }
+
+        .results-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* ── Result card ── */
+        .result-card {
+            padding: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .result-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .result-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .result-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .result-rating .num {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .result-rating .cnt {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .result-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .result-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 14px;
+            border-top: 1px solid var(--border-card);
+            padding-top: 14px;
+        }
+
+        .result-rent {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .result-rent-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ── Map panel ── */
+        #map-panel {
+            height: 560px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .map-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state .icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+        }
+
+        /* ── Skeleton loaders ── */
+        .skeleton-card {
+            padding: 24px;
+        }
+
+        .skeleton-line {
+            height: 14px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        @media(max-width:860px) {
+
+            .results-layout,
+            .map-view {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:600px) {
+            .filter-row {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <div class="nav-logo-icon">🏠</div>
+                    <span>Tenant<span class="gradient-text">Trust</span></span>
+                </a>
+                <div class="nav-links" id="nav-links">
+                    <a href="search.html" class="nav-link active">Search</a>
+                    <a href="rent-trends.html" class="nav-link">Rent Trends</a>
+                    <a href="submit-review.html" class="nav-link">Submit Review</a>
+                    <a href="signin.html" class="btn btn-outline btn-sm">Sign In</a>
+                    <a href="signup.html" class="btn btn-primary btn-sm nav-cta">Sign Up Free</a>
+                </div>
+                <button class="nav-hamburger" onclick="toggleMenu()"
+                    aria-label="Menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="search-hero">
+        <div class="orb orb-violet" style="width:320px;height:320px;top:-100px;right:-60px;opacity:0.2"></div>
+        <div class="orb orb-teal" style="width:220px;height:220px;bottom:-80px;left:-60px;opacity:0.18"></div>
+        <div class="container" style="position:relative;z-index:2">
+            <div class="chip"
+                style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;margin:0 auto 18px">
+                🔍 Landlord &amp; Building Search</div>
+            <h1>Search <span
+                    style="background:linear-gradient(135deg,#7dd3fc,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Landlords
+                    &amp; Buildings</span></h1>
+            <p>Find verified ratings, complaint histories, and Fair Rent Scores for any property across India.</p>
+            <div class="hero-search-bar">
+                <span style="font-size:18px">🔍</span>
+                <input id="search-input" type="text" placeholder="Landlord name, building name, or area…" />
+                <button class="btn btn-primary btn-sm" onclick="applyFilters()">Search →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <div class="container">
+            <div class="filter-row">
+                <select class="filter-select" id="f-city" onchange="applyFilters()">
+                    <option value="">📍 All Cities</option>
+                    <option>Mumbai</option>
+                    <option>Bengaluru</option>
+                    <option>Delhi</option>
+                    <option>Hyderabad</option>
+                    <option>Chennai</option>
+                    <option>Pune</option>
+                </select>
+                <select class="filter-select" id="f-rating" onchange="applyFilters()">
+                    <option value="">⭐ Any Rating</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="3">3+ Stars</option>
+                </select>
+                <select class="filter-select" id="f-sort" onchange="applyFilters()">
+                    <option value="rating">Sort: Top Rated</option>
+                    <option value="complaints">Fewest Complaints</option>
+                    <option value="frs">Best Rent Score</option>
+                </select>
+                <div class="filter-spacer"></div>
+                <div class="view-toggle">
+                    <button class="view-btn active" id="list-btn" onclick="switchView('list')">☰ List</button>
+                    <button class="view-btn" id="map-btn" onclick="switchView('map')">🗺 Map</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-body">
+        <div class="container">
+
+            <!-- Results count -->
+            <div class="flex-between mb-2">
+                <p id="results-meta" class="text-sm text-muted fw-600">Loading results…</p>
+                <div id="active-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+            </div>
+
+            <!-- List view -->
+            <div id="list-view">
+                <div id="results-grid" class="results-layout">
+                    <!-- Skeleton -->
+                    <div class="card skeleton-card">
+                        <div class="skeleton skeleton-line" style="width:60%"></div>
+                        <div class="skeleton skeleton-line" style="width:40%;margin-bottom:16px"></div>
+                        <div class="skeleton skeleton-line" style="width:80%"></div>
+                        <div class="skeleton skeleton-line" style="width:55%"></div>
+                    </div>
+                    <div class="card skeleton-card">
+                        <div class="skeleton skeleton-line" style="width:65%"></div>
+                        <div class="skeleton skeleton-line" style="width:45%;margin-bottom:16px"></div>
+                        <div class="skeleton skeleton-line" style="width:75%"></div>
+                        <div class="skeleton skeleton-line" style="width:50%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map view -->
+            <div id="map-view" style="display:none">
+                <div class="map-view">
+                    <div id="map-panel"></div>
+                    <div id="map-results"
+                        style="max-height:560px;overflow-y:auto;display:flex;flex-direction:column;gap:16px"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none;padding-top:0">
+                <p>© 2025 TenantTrust. All rights reserved.</p>
+                <div style="display:flex;gap:16px">
+                    <a href="index.html" style="font-size:13px;color:rgba(255,255,255,0.4)">Home</a>
+                    <a href="rent-trends.html" style="font-size:13px;color:rgba(255,255,255,0.4)">Rent Trends</a>
+                    <a href="submit-review.html" style="font-size:13px;color:rgba(255,255,255,0.4)">Submit Review</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/search.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('nav-links').classList.toggle('mobile-open'); }
+        function switchView(v) {
+            document.getElementById('list-view').style.display = v === 'list' ? 'block' : 'none';
+            document.getElementById('map-view').style.display = v === 'map' ? 'block' : 'none';
+            document.getElementById('list-btn').classList.toggle('active', v === 'list');
+            document.getElementById('map-btn').classList.toggle('active', v === 'map');
+        }
+    </script>
+</body>
+
+</html>

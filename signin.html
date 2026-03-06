@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — TenantTrust</title>
+    <meta name="description" content="Sign in to your TenantTrust account as a Renter or Property Owner." />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+        }
+
+        .auth-page {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        @media(max-width:900px) {
+            .auth-page {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-panel {
+                display: none;
+            }
+        }
+
+        /* Left panel */
+        .auth-panel {
+            background: linear-gradient(135deg, #1e2756 0%, #4361ee 60%, #06b6d4 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            overflow: hidden;
+        }
+
+        .panel-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 44px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .panel-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .panel-headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .panel-desc {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.75;
+            margin-bottom: 36px;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-md);
+            padding: 22px 26px;
+            margin-bottom: 28px;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.75;
+            font-style: italic;
+            margin-bottom: 14px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .testimonial-author .av {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .testimonial-author .name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .testimonial-author .role {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Benefits */
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 10px;
+        }
+
+        /* Right panel */
+        .auth-form-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow-y: auto;
+            background: #fff;
+        }
+
+        .auth-form-inner {
+            width: 100%;
+            max-width: 420px;
+            padding: 8px 0;
+        }
+
+        /* Mobile logo */
+        .mobile-logo {
+            display: none;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        @media(max-width:900px) {
+            .mobile-logo {
+                display: block;
+            }
+        }
+
+        .mobile-logo a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .mobile-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--shadow-primary);
+        }
+
+        /* Role toggle */
+        .role-toggle {
+            display: flex;
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .role-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 16px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .role-btn.active {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .role-btn:not(.active):hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Role label */
+        .role-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            border: 1.5px solid rgba(67, 97, 238, 0.22);
+            border-radius: var(--radius-full);
+            padding: 4px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .role-label.owner {
+            background: rgba(124, 58, 237, 0.09);
+            border-color: rgba(124, 58, 237, 0.22);
+            color: var(--accent-purple);
+        }
+
+        /* Owner info box */
+        .owner-info {
+            background: rgba(124, 58, 237, 0.06);
+            border: 1px solid rgba(124, 58, 237, 0.18);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--accent-purple);
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .owner-info.show {
+            display: block;
+        }
+
+        .form-header {
+            margin-bottom: 24px;
+        }
+
+        .form-header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .form-header a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Social */
+        .social-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Input icons */
+        .input-icon-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .input-icon-wrap .form-control {
+            padding-left: 42px;
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* Forgot */
+        .forgot-link {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .field-error {
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-control.error {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-page">
+
+        <!-- LEFT PANEL -->
+        <div class="auth-panel">
+            <div class="orb orb-teal"
+                style="width:350px;height:350px;top:-100px;right:-80px;opacity:0.2;filter:blur(80px)"></div>
+            <div class="orb orb-violet"
+                style="width:250px;height:250px;bottom:-60px;left:-60px;opacity:0.18;filter:blur(80px)"></div>
+            <div class="panel-content animate-fade-up">
+                <a href="index.html" class="panel-logo">
+                    <div class="panel-logo-icon">🏠</div>
+                    <span>Tenant<span
+                            style="background:linear-gradient(135deg,#7dd3fc,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Trust</span></span>
+                </a>
+                <div class="panel-headline">Welcome back to <span
+                        style="background:linear-gradient(135deg,#7dd3fc,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">smarter</span>
+                    renting.</div>
+                <div class="panel-desc">Access your dashboard, saved profiles, rent alerts, and review history.</div>
+
+                <div class="testimonial">
+                    <div class="testimonial-text">"The Fair Rent Score saved me ₹8,000/mo. Best renting decision ever!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="av">NR</div>
+                        <div>
+                            <div class="name">Neha R.</div>
+                            <div class="role">Whitefield, Bengaluru</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefit-item"><span>✅</span> Free to join — no hidden charges</div>
+                <div class="benefit-item"><span>🛡️</span> Your data is encrypted and private</div>
+                <div class="benefit-item"><span>📊</span> Access to real-time rent trend data</div>
+                <div class="benefit-item"><span>🤝</span> Verified community reviews</div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="auth-form-side">
+            <div class="auth-form-inner animate-fade-up">
+
+                <!-- Mobile logo -->
+                <div class="mobile-logo">
+                    <a href="index.html">
+                        <div class="mobile-logo-icon">🏠</div>
+                        <span>Tenant<span class="gradient-text">Trust</span></span>
+                    </a>
+                </div>
+
+                <!-- Role toggle -->
+                <div class="role-toggle">
+                    <button class="role-btn active" id="btn-customer" onclick="setRole('customer')">🏠 I'm a
+                        Renter</button>
+                    <button class="role-btn" id="btn-owner" onclick="setRole('owner')">🏢 I'm an Owner</button>
+                </div>
+
+                <!-- Header -->
+                <div class="form-header">
+                    <div class="role-label" id="role-label">🏠 Renter Account</div>
+                    <h1>Sign in</h1>
+                    <p>Don't have an account? <a href="signup.html">Create one →</a></p>
+                </div>
+
+                <!-- Owner info -->
+                <div class="owner-info" id="owner-info">🏢 Signing in as a <strong>Property Owner</strong> — access your
+                    landlord dashboard, listings, and tenant reviews.</div>
+
+                <!-- Social -->
+                <div class="social-row">
+                    <button class="social-btn" onclick="showToast('Google sign-in coming soon!','success')"><span
+                            style="font-weight:900">G</span> Google</button>
+                    <button class="social-btn" onclick="showToast('Facebook sign-in coming soon!','success')"><span
+                            style="font-weight:900">f</span> Facebook</button>
+                </div>
+                <div class="divider-text"><span>or continue with email</span></div>
+
+                <!-- Form -->
+                <form id="signin-form" onsubmit="handleSignIn(event)" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <div class="input-icon-wrap">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                autocomplete="email" />
+                        </div>
+                        <div class="field-error" id="email-error">Please enter a valid email.</div>
+                    </div>
+                    <div class="form-group">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+                            <label class="form-label" style="margin-bottom:0">Password</label>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+                        <div class="input-icon-wrap password-wrap">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" class="form-control" id="password" placeholder="Your password"
+                                style="padding-right:44px" autocomplete="current-password" />
+                            <button type="button" class="password-toggle"
+                                onclick="togglePw('password',this)">👁</button>
+                        </div>
+                        <div class="field-error" id="password-error">Password is required.</div>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+                        <label
+                            style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--text-secondary)">
+                            <input type="checkbox" id="remember" style="accent-color:var(--primary)" /> Remember me
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-submit" id="signin-btn">Sign In</button>
+                </form>
+
+                <div class="auth-switch mt-2">New to TenantTrust? <a href="signup.html">Create an account</a></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        let activeRole = 'customer';
+        function setRole(role) {
+            activeRole = role;
+            document.getElementById('btn-customer').classList.toggle('active', role === 'customer');
+            document.getElementById('btn-owner').classList.toggle('active', role === 'owner');
+            const lbl = document.getElementById('role-label');
+            const oi = document.getElementById('owner-info');
+            if (role === 'owner') {
+                lbl.textContent = '🏢 Owner Account'; lbl.classList.add('owner'); oi.classList.add('show');
+            } else {
+                lbl.textContent = '🏠 Renter Account'; lbl.classList.remove('owner'); oi.classList.remove('show');
+            }
+        }
+        function togglePw(id, btn) {
+            const el = document.getElementById(id);
+            const isT = el.type === 'text';
+            el.type = isT ? 'password' : 'text';
+            btn.textContent = isT ? '👁' : '🙈';
+        }
+    </script>
+</body>
+
+</html>

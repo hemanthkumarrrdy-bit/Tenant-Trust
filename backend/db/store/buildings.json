@@ -1,0 +1,57 @@
+[
+  {
+    "id": "B001",
+    "name": "Silver Oaks Apartments",
+    "address": "Andheri West, Mumbai",
+    "landlordId": "L001",
+    "built": 2008,
+    "units": 24,
+    "maintenanceScore": 78,
+    "lat": 19.136,
+    "lng": 72.8296
+  },
+  {
+    "id": "B002",
+    "name": "Shanti Nagar CHS",
+    "address": "Kurla East, Mumbai",
+    "landlordId": "L002",
+    "built": 1992,
+    "units": 36,
+    "maintenanceScore": 31,
+    "lat": 19.0728,
+    "lng": 72.8826
+  },
+  {
+    "id": "B003",
+    "name": "Brigade Towers",
+    "address": "Indiranagar, Bengaluru",
+    "landlordId": "L003",
+    "built": 2015,
+    "units": 60,
+    "maintenanceScore": 65,
+    "lat": 12.9784,
+    "lng": 77.6408
+  },
+  {
+    "id": "B004",
+    "name": "Prestige Lakeside",
+    "address": "Whitefield, Bengaluru",
+    "landlordId": "L004",
+    "built": 2019,
+    "units": 120,
+    "maintenanceScore": 92,
+    "lat": 12.9698,
+    "lng": 77.75
+  },
+  {
+    "id": "B005",
+    "name": "Maharani Apartments",
+    "address": "Lajpat Nagar, Delhi",
+    "landlordId": "L005",
+    "built": 2001,
+    "units": 30,
+    "maintenanceScore": 52,
+    "lat": 28.5672,
+    "lng": 77.2433
+  }
+]

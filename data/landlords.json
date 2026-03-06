@@ -1,0 +1,143 @@
+[
+  {
+    "id": "L001",
+    "name": "Ramesh Agarwal Properties",
+    "avatar": "RA",
+    "verified": true,
+    "rating": 4.2,
+    "totalReviews": 87,
+    "city": "Mumbai",
+    "areas": ["Andheri West", "Juhu"],
+    "propertiesManaged": 12,
+    "responseTime": "Within 24 hrs",
+    "redFlags": [],
+    "ratings": {
+      "responsiveness": 4.5,
+      "maintenance": 4.0,
+      "fairness": 4.3,
+      "communication": 4.1
+    },
+    "fairRentScore": 82,
+    "properties": [
+      { "id": "P001", "address": "Flat 3B, Silver Oaks, Andheri West", "bhk": 2, "rent": 42000 },
+      { "id": "P002", "address": "Flat 7A, Sea View Residency, Juhu", "bhk": 3, "rent": 78000 }
+    ],
+    "reviews": [
+      { "id": "R001", "author": "Priya M.", "date": "2025-11-10", "rating": 5, "text": "Very cooperative landlord. Fixed the AC within a day of reporting. Highly recommend!", "upvotes": 34, "anonymous": false },
+      { "id": "R002", "author": "Anonymous", "date": "2025-09-22", "rating": 4, "text": "Generally good. Minor delay in returning deposit but resolved after one follow-up.", "upvotes": 18, "anonymous": true },
+      { "id": "R003", "author": "Karan S.", "date": "2025-08-05", "rating": 4, "text": "Professional and transparent. Lease agreement was clear with no hidden clauses.", "upvotes": 21, "anonymous": false }
+    ]
+  },
+  {
+    "id": "L002",
+    "name": "Sunita Builders & Rentals",
+    "avatar": "SB",
+    "verified": false,
+    "rating": 2.1,
+    "totalReviews": 43,
+    "city": "Mumbai",
+    "areas": ["Kurla", "Ghatkopar"],
+    "propertiesManaged": 6,
+    "responseTime": "3–5 days",
+    "redFlags": ["2 eviction notices filed", "3 unresolved maintenance complaints"],
+    "ratings": {
+      "responsiveness": 2.0,
+      "maintenance": 1.8,
+      "fairness": 2.5,
+      "communication": 2.2
+    },
+    "fairRentScore": 38,
+    "properties": [
+      { "id": "P003", "address": "Room 12, Shanti Nagar, Kurla East", "bhk": 1, "rent": 22000 },
+      { "id": "P004", "address": "Flat 2C, Patel Chawl, Ghatkopar", "bhk": 2, "rent": 35000 }
+    ],
+    "reviews": [
+      { "id": "R004", "author": "Anonymous", "date": "2025-12-01", "rating": 1, "text": "Horrible experience. Refused to return deposit for months. Had to involve legal help.", "upvotes": 52, "anonymous": true },
+      { "id": "R005", "author": "Meera T.", "date": "2025-10-15", "rating": 2, "text": "Plumbing issues were reported 4 times. Nothing was fixed. Avoid.", "upvotes": 41, "anonymous": false }
+    ]
+  },
+  {
+    "id": "L003",
+    "name": "Horizon Realty",
+    "avatar": "HR",
+    "verified": true,
+    "rating": 3.7,
+    "totalReviews": 61,
+    "city": "Bengaluru",
+    "areas": ["Indiranagar", "Koramangala"],
+    "propertiesManaged": 9,
+    "responseTime": "Within 48 hrs",
+    "redFlags": ["1 pending court case"],
+    "ratings": {
+      "responsiveness": 3.5,
+      "maintenance": 3.8,
+      "fairness": 3.9,
+      "communication": 3.6
+    },
+    "fairRentScore": 67,
+    "properties": [
+      { "id": "P005", "address": "204, Brigade Towers, Indiranagar", "bhk": 2, "rent": 38000 },
+      { "id": "P006", "address": "501, Maple Grove, Koramangala 5th Block", "bhk": 3, "rent": 62000 }
+    ],
+    "reviews": [
+      { "id": "R006", "author": "Arjun K.", "date": "2025-11-30", "rating": 4, "text": "Good property. Landlord is a bit slow on repairs but eventually gets things done.", "upvotes": 15, "anonymous": false },
+      { "id": "R007", "author": "Anonymous", "date": "2025-07-18", "rating": 3, "text": "Rent was hiked 15% without notice. Make sure to get everything in writing.", "upvotes": 29, "anonymous": true }
+    ]
+  },
+  {
+    "id": "L004",
+    "name": "Greenleaf Properties",
+    "avatar": "GP",
+    "verified": true,
+    "rating": 4.7,
+    "totalReviews": 112,
+    "city": "Bengaluru",
+    "areas": ["Whitefield", "HSR Layout"],
+    "propertiesManaged": 18,
+    "responseTime": "Same day",
+    "redFlags": [],
+    "ratings": {
+      "responsiveness": 4.9,
+      "maintenance": 4.6,
+      "fairness": 4.8,
+      "communication": 4.5
+    },
+    "fairRentScore": 91,
+    "properties": [
+      { "id": "P007", "address": "Apt 12, Prestige Lakeside, Whitefield", "bhk": 2, "rent": 35000 },
+      { "id": "P008", "address": "Villa 3, Greenwood Estate, HSR Layout", "bhk": 4, "rent": 95000 }
+    ],
+    "reviews": [
+      { "id": "R008", "author": "Neha R.", "date": "2026-01-12", "rating": 5, "text": "Best landlord I've had in 10 years of renting. Proactive, honest, and professional.", "upvotes": 78, "anonymous": false },
+      { "id": "R009", "author": "Dev P.", "date": "2025-12-28", "rating": 5, "text": "Full deposit returned within 3 days of vacating. No questions asked. 10/10.", "upvotes": 63, "anonymous": false }
+    ]
+  },
+  {
+    "id": "L005",
+    "name": "Metro Living Pvt Ltd",
+    "avatar": "ML",
+    "verified": false,
+    "rating": 3.1,
+    "totalReviews": 38,
+    "city": "Delhi",
+    "areas": ["Lajpat Nagar", "Greater Kailash"],
+    "propertiesManaged": 7,
+    "responseTime": "2–3 days",
+    "redFlags": ["Illegal construction reported"],
+    "ratings": {
+      "responsiveness": 3.2,
+      "maintenance": 2.9,
+      "fairness": 3.0,
+      "communication": 3.3
+    },
+    "fairRentScore": 55,
+    "properties": [
+      { "id": "P009", "address": "Flat 5, Maharani Apartments, Lajpat Nagar", "bhk": 2, "rent": 28000 },
+      { "id": "P010", "address": "Floor 2, GK-1, Greater Kailash", "bhk": 3, "rent": 55000 }
+    ],
+    "reviews": [
+      { "id": "R010", "author": "Rohit D.", "date": "2025-10-05", "rating": 3, "text": "Average experience. Property is decent but landlord takes time to respond.", "upvotes": 12, "anonymous": false },
+      { "id": "R011", "author": "Anonymous", "date": "2025-08-20", "rating": 2, "text": "Was charged for repairs that were pre-existing. Document everything before moving in.", "upvotes": 27, "anonymous": true }
+    ]
+  }
+]
